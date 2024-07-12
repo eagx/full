@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fullscreen Force</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #333;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        #message {
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="message">You are now in fullscreen mode!</div>
+    <script>
+        function enterFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch((err) => {
+                    console.error(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+                });
+            }
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement) {
+                enterFullscreen();
+            }
+        });
+
+        setInterval(enterFullscreen, 1);
+
+        // Enter fullscreen on page load
+        window.onload = enterFullscreen;
+    </script>
+</body>
+</html>
