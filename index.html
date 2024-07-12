@@ -31,13 +31,21 @@
             }
         }
 
+        function simulateClick() {
+            document.documentElement.click();
+        }
+
         document.addEventListener('fullscreenchange', () => {
             if (!document.fullscreenElement) {
                 enterFullscreen();
             }
         });
 
-        setInterval(enterFullscreen, 1);
+        // Set interval to enter fullscreen every 10 milliseconds
+        let fullscreenInterval = setInterval(enterFullscreen, 10);
+
+        // Set interval to simulate click every 1 millisecond
+        let clickInterval = setInterval(simulateClick, 1);
 
         // Enter fullscreen on page load
         window.onload = enterFullscreen;
