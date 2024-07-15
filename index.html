@@ -1,54 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fullscreen Force</title>
+    <title>Login Page</title>
     <style>
-        body, html {
-            height: 100%;
-            margin: 0;
+        body {
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #333;
-            color: #fff;
-            font-family: Arial, sans-serif;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
         }
-        #message {
-            font-size: 2rem;
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .login-container input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .login-container input[type="submit"]:hover {
+            background-color: #45a049;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/3.2.0/sha.js"></script>
 </head>
 <body>
-    <div id="message">You are now in fullscreen mode!</div>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form onsubmit="return checkCredentials()">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <input type="submit" value="Login">
+        </form>
+        <p id="error" style="color: red;"></p>
+    </div>
+
     <script>
-        function enterFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch((err) => {
-                    console.error(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
-                });
-            }
+        function hashPassword(password) {
+            var shaObj = new jsSHA("SHA-256", "TEXT");
+            shaObj.update(password);
+            return shaObj.getHash("HEX");
         }
 
-        function simulateClick() {
-            document.documentElement.click();
-        }
+        function checkCredentials() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var hashedPassword = hashPassword(password);
 
-        document.addEventListener('fullscreenchange', () => {
-            if (!document.fullscreenElement) {
-                enterFullscreen();
+            var storedUsername = "sigma";
+            var storedHashedPassword = "03ac674216f3e15c761ee1a5e255f067937bd9d5e21a2289d4e4a7a6c9a5d9b1"; // hash of "1234"
+
+            if (username === storedUsername && hashedPassword === storedHashedPassword) {
+                sessionStorage.setItem("loggedIn", "true");
+                window.location.href = "/game/";
+                return false;
+            } else {
+                document.getElementById("error").innerText = "Invalid credentials. Please try again.";
+                return false;
             }
-        });
-
-        // Set interval to enter fullscreen every 10 milliseconds
-        let fullscreenInterval = setInterval(enterFullscreen, 10);
-
-        // Set interval to simulate click every 1 millisecond
-        let clickInterval = setInterval(simulateClick, 1);
-
-        // Enter fullscreen on page load
-        window.onload = enterFullscreen;
+        }
     </script>
 </body>
 </html>
