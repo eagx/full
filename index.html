@@ -59,9 +59,14 @@
 
     <script>
         function hashPassword(password) {
-            var shaObj = new jsSHA("SHA-256", "TEXT");
-            shaObj.update(password);
-            return shaObj.getHash("HEX");
+            try {
+                var shaObj = new jsSHA("SHA-256", "TEXT");
+                shaObj.update(password);
+                return shaObj.getHash("HEX");
+            } catch (e) {
+                console.error("Error hashing password:", e);
+                return null;
+            }
         }
 
         function checkCredentials() {
