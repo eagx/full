@@ -69,8 +69,15 @@
             var password = document.getElementById("password").value;
             var hashedPassword = hashPassword(password);
 
+            console.log("Entered username: " + username);
+            console.log("Entered password: " + password);
+            console.log("Hashed entered password: " + hashedPassword);
+
             var storedUsername = "sigma";
             var storedHashedPassword = "03ac674216f3e15c761ee1a5e255f067937bd9d5e21a2289d4e4a7a6c9a5d9b1"; // hash of "1234"
+
+            console.log("Stored username: " + storedUsername);
+            console.log("Stored hashed password: " + storedHashedPassword);
 
             if (username === storedUsername && hashedPassword === storedHashedPassword) {
                 sessionStorage.setItem("loggedIn", "true");
