@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game Page</title>
+    <script>
+        window.onload = function() {
+            if (sessionStorage.getItem("loggedIn") !== "true") {
+                window.location.href = "/";
+            }
+        };
+    </script>
+</head>
+<body>
+    <h1>Welcome to the Game Page</h1>
+    <p>This content is restricted to logged-in users only.</p>
+</body>
+</html>
